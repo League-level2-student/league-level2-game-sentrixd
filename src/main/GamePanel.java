@@ -1,15 +1,12 @@
 package main;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.Random;
 
 import javax.swing.Timer;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     final int MENU = 0;
     final int GAME = 1;
     final int END = 2;
@@ -30,9 +27,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     int playerX, player;
     
     GamePanel() {
-    	countdown = new Timer(1000,this);
+   		countdown = new Timer(1000,this);
         frameDraw = new Timer(1/60,this);
         frameDraw.start();
+        this.addMouseListener(this);
     }
     
     public void paintComponent(Graphics g) {
@@ -59,25 +57,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
     
     void drawGameState(Graphics g) {
-    	// Title
-    	g.setFont(titleFont);
-    	g.setColor(Color.WHITE);
-    	g.drawString("Score: ", 300, 50);
-    	// Countdown
-    	g.setFont(countdownFont);
-    	g.setColor(new Color(15,235,3));
+    		// Title
+    		g.setFont(titleFont);
+    		g.setColor(Color.WHITE);
+    		g.drawString("Score: ", 300, 50);
+    		// Countdown
+    		g.setFont(countdownFont);
+    		g.setColor(new Color(15,235,3));
     	
-    	if (currentNumber != 15) {
-    		g.drawString(currentNumber + "", 300, 150);
-    	}
+    		if (currentNumber != 15) {
+    			g.drawString(currentNumber + "", 300, 150);
+    		}
     }
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-
-
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -90,16 +81,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		
 	}
-
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -114,5 +95,49 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				countdown.stop();
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("yee2t");
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		System.out.println("yeet");
+		int pointX = e.getPoint().x;
+		int pointY = e.getPoint().y;
+		System.out.println(pointX + " " + pointY);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
