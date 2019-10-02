@@ -12,10 +12,12 @@ public class GameObject {
 	 boolean isActive;
 	 Rectangle collisionBox;
 	
-	GameObject(int x, int y) {
+	GameObject(int x, int y, int sizeX, int sizeY) {
 		this.x = x;
 		this.y = y;
-		collisionBox = new Rectangle(xVal, yVal, widthVal, heightVal);
+		this.width = sizeX;
+		this.height = sizeY;
+		collisionBox = new Rectangle(x, y, sizeX, sizeY);
 	}
 	
 	void update() {
@@ -23,7 +25,7 @@ public class GameObject {
 	}
 	
 	void draw(Graphics g) {
-		g.setColor(Color.RED);
-		g.drawRect(x, y, width, height);
+		//g.setColor(Color.GREEN);
+		//g.drawOval(20, 20, width, height);
 	}
 }

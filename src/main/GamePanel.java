@@ -11,6 +11,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     final int GAME = 1;
     final int END = 2;
     
+    ObjectManager objectManager;
+    Map gameMap;
+    
     Timer frameDraw;
     Timer countdown;
     
@@ -29,8 +32,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     GamePanel() {
    		countdown = new Timer(1000,this);
         frameDraw = new Timer(1/60,this);
+        
         frameDraw.start();
+        
         this.addMouseListener(this);
+        
+        objectManager = new ObjectManager(new Character(20,20,20,20));
+        gameMap = new Map();
+        gameMap.loadMap();
     }
     
     public void paintComponent(Graphics g) {
@@ -54,6 +63,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(lowerFont1);
 		g.setColor(new Color(15,235,3));
 		g.drawString("Press space to start", 300, 350);
+		
 	}
     
     void drawGameState(Graphics g) {
@@ -68,6 +78,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     		if (currentNumber != 15) {
     			g.drawString(currentNumber + "", 300, 150);
     		}
+    		objectManager.draw(g);
     }
 
 	@Override
