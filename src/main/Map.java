@@ -1,11 +1,12 @@
 package main;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Map {
-	Scanner mapScan = new Scanner("Map.txt");
 	
 	void loadMap() {
-		System.out.println(mapScan.next().charAt(3));
+		ArrayList<GameObject> mapArray = new ArrayList<GameObject>(); 
+		
+		mapArray.add(new GameObject(30,30,30,30));
 	}
 }

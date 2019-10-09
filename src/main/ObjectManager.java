@@ -6,10 +6,10 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class ObjectManager {
-	Character character;
+	 ArrayList<Character> characters;
 	
-	ObjectManager(Character character) {
-		this.character = character;
+	ObjectManager(ArrayList<Character> character) {
+		this.characters = character;
 	}
 	
 	void generateBalls(int areab) {
@@ -21,7 +21,9 @@ public class ObjectManager {
 	}
 	
 	void draw(Graphics g) {
-		this.character.draw(g);
+		for (Character c: characters) {
+			c.draw(g);
+		}
 	}
 	
 	void purgeObjects() {

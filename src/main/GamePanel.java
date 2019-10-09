@@ -1,16 +1,22 @@
 package main;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.Timer;
 import javax.swing.JPanel;
+
+//fakePlayer FIX
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
     final int MENU = 0;
     final int GAME = 1;
     final int END = 2;
     
+    Character localPlayer;
+    Character fakePlayer;
+    ArrayList<Character> characters;
     ObjectManager objectManager;
     Map gameMap;
     
@@ -21,13 +27,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     Font lowerFont1 = new Font("Avenir Next", Font.PLAIN, 16);;
     Font countdownFont = new Font("Avenir Next", Font.PLAIN, 32);
     
-    int currentState = MENU;
+    int currentState = MENU;	
     int currentNumber = 3;
     
     int currentPoints = 0;
     int totalPoints = 0;
     
-    int playerX, player;
+    int x,y;
     
     GamePanel() {
    		countdown = new Timer(1000,this);
@@ -37,13 +43,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         
         this.addMouseListener(this);
         
-        objectManager = new ObjectManager(new Character(20,20,20,20));
+        characters = new ArrayList<Character>();
+        objectManager = new ObjectManager(characters);
+        
+        
+        localPlayer = new Character(305, 180, 20,20);
+        fakePlayer = new Character(305,180,20,20);
+        
+        characters.add(localPlayer);
+        characters.add(fakePlayer);
+        
+        
+        
         gameMap = new Map();
         gameMap.loadMap();
     }
     
     public void paintComponent(Graphics g) {
-    	// set color
+    		// set color
 		g.setColor(new Color(33,33,33));
 		g.fillRect(0, 0, Platformer.WIDTH, Platformer.HEIGHT);
 		
@@ -81,7 +98,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     		objectManager.draw(g);
     }
 
-	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (currentState == MENU) {
@@ -106,49 +122,48 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				countdown.stop();
 			}
 		}
+		
+		if (x != 0) {
+			fakePlayer.x = x;
+			if (x != localPlayer.x) {
+				 if (x < localPlayer.x) {
+					 localPlayer.x--;
+				 } else if (x > localPlayer.x) {
+					 localPlayer.x++;
+				 }
+			 }
+		}
+		
+		if (y != 0) {
+			fakePlayer.y = y;
+			if (y != localPlayer.y) {
+				 if (y < localPlayer.y) {
+					 localPlayer.y--;
+				 } else if (y > localPlayer.y) {
+					 localPlayer.y++;
+				 }
+			 }
+		}
+		
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println("yee2t");
+	public void mouseClicked(MouseEvent e) {}
+	
+	public void mouseMoved(MouseEvent e) {
+		 x = e.getPoint().x;
+		 y = e.getPoint().y;
+		 
+		 System.out.println(x + " " + y);
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("yeet");
-		int pointX = e.getPoint().x;
-		int pointY = e.getPoint().y;
-		System.out.println(pointX + " " + pointY);
+		 x = e.getPoint().x;
+		 y = e.getPoint().y;
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 }

@@ -16,8 +16,8 @@ public class Character extends GameObject {
 	int targetX;
 	int targetY;
 	
-	Character(int x, int y, int xSize, int ySize) {
-		super(x,y,xSize,ySize);
+	Character(int x, int y, int sizeX, int sizeY) {
+		super(x,y,sizeX,sizeY);
 		this.x = x;
 		this.y = y;
 		if (needImage) {
@@ -32,7 +32,7 @@ public class Character extends GameObject {
         if (gotImage) {
         		g.drawImage(image, x, y, width, height, null);
         } else {
-        		g.drawOval(20, 20, width, height);
+        		g.drawOval(305, 180, width, height);
         }
 	}
 	
