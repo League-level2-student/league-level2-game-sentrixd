@@ -11,17 +11,18 @@ public class Character extends GameObject {
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
 	
+	
 	int x;
 	int y;
 	int targetX;
 	int targetY;
 	
-	Character(int x, int y, int sizeX, int sizeY) {
-		super(x,y,sizeX,sizeY);
+	Character(int x, int y, int sizeX, int sizeY,String loadImageName,Color colorValue) {
+		super(x,y,sizeX,sizeY,loadImageName,colorValue);
 		this.x = x;
 		this.y = y;
 		if (needImage) {
-		    loadImage ("character.png");
+		    loadImage (loadImageName);
 		}
 	}
 	

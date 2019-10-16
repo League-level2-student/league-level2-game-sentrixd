@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 //fakePlayer FIX
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener, MouseMotionListener {
     final int MENU = 0;
     final int GAME = 1;
     final int END = 2;
@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     int currentPoints = 0;
     int totalPoints = 0;
     
-    int x,y;
+    int x,y,xVal,yVal;
     
     GamePanel() {
    		countdown = new Timer(1000,this);
@@ -42,21 +42,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         frameDraw.start();
         
         this.addMouseListener(this);
+        this.addMouseMotionListener(this);
         
         characters = new ArrayList<Character>();
         objectManager = new ObjectManager(characters);
         
         
-        localPlayer = new Character(305, 180, 20,20);
-        fakePlayer = new Character(305,180,20,20);
+        localPlayer = new Character(305, 180, 20,20,"character.png",null);
+        fakePlayer = new Character(305,180,20,20,"fakeCharacter.png",null);
         
         characters.add(localPlayer);
         characters.add(fakePlayer);
         
-        
-        
         gameMap = new Map();
-        gameMap.loadMap();
     }
     
     public void paintComponent(Graphics g) {
@@ -96,17 +94,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     			g.drawString(currentNumber + "", 300, 150);
     		}
     		objectManager.draw(g);
+    		gameMap.displayMap(g);
     }
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			if (currentState == MENU) {
-				System.out.println("Game state startesd");
 				currentState = GAME;
 				countdown.start();
+				gameMap.loadMap();
 			}
 		}
-		
 	}
 
 	@Override
@@ -124,6 +122,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		
 		if (x != 0) {
+			localPlayer.x++;
 			fakePlayer.x = x;
 			if (x != localPlayer.x) {
 				 if (x < localPlayer.x) {
@@ -145,25 +144,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			 }
 		}
 		
+		 if (xVal >= 1 && yVal >= 1) {
+			 fakePlayer.x = xVal;
+			 fakePlayer.y = yVal;
+		 }
 	}
-
-	public void mouseClicked(MouseEvent e) {}
 	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		x = e.getPoint().x;
+		y = e.getPoint().y;
+	}
+	
+	@Override
 	public void mouseMoved(MouseEvent e) {
-		 x = e.getPoint().x;
-		 y = e.getPoint().y;
-		 
-		 System.out.println(x + " " + y);
+		 xVal = e.getPoint().x;
+		 yVal = e.getPoint().y;
 	}
 
-	public void mousePressed(MouseEvent e) {
-		 x = e.getPoint().x;
-		 y = e.getPoint().y;
-	}
-
-	public void mouseReleased(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
 }
