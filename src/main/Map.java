@@ -7,10 +7,15 @@ import java.util.ArrayList;
 public class Map {
 	ArrayList<mapObjects> mapArray = new ArrayList<mapObjects>(); 
 	
+	void addObject(int x,int y,int x1,int y1,Color c) {
+		mapArray.add(new mapObjects(x,y,x1,y1,null,c));
+	}
+	
 	void loadMap() {
 		// x,y position x,y size
-		mapArray.add(new mapObjects(0,290,2000,100,null,new Color(235, 85, 52)));
-		mapArray.add(new mapObjects(250,270,300,20,null,new Color(255, 255, 255)));
+		System.out.println("yeet");
+		addObject(-1250,350,5000,100,new Color(235, 85, 52));
+		addObject(250,330,300,20,new Color(255,255,255));
 	}
 	
 	void displayMap(Graphics graphic) {

@@ -41,7 +41,7 @@ public class Character extends GameObject {
 	    if (needImage) {
 	        try {
 	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
+	            gotImage = true;
 	        } catch (Exception e) {
 	            System.out.println(e);
 	        }

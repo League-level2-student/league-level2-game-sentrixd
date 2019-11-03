@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     ArrayList<Character> characters;
     ObjectManager objectManager;
     Map gameMap;
+    BallsAI ballMain;
     
     Timer frameDraw;
     Timer countdown;
@@ -32,6 +33,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     
     int currentPoints = 0;
     int totalPoints = 0;
+    
+    int gamespeed = 1;
     
     int x,y,xVal,yVal;
     
@@ -47,13 +50,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         characters = new ArrayList<Character>();
         objectManager = new ObjectManager(characters);
         
-        
         localPlayer = new Character(305, 180, 20,20,"character.png",null);
         fakePlayer = new Character(305,180,20,20,"fakeCharacter.png",null);
         
         characters.add(localPlayer);
         characters.add(fakePlayer);
         
+        ballMain = new BallsAI(this);
         gameMap = new Map();
     }
     
@@ -95,6 +98,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     		}
     		objectManager.draw(g);
     		gameMap.displayMap(g);
+    		ballMain.displayBalls(g);
     }
 
 	public void keyPressed(KeyEvent e) {
@@ -103,6 +107,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				currentState = GAME;
 				countdown.start();
 				gameMap.loadMap();
+				ballMain.generateBalls();
 			}
 		}
 	}
@@ -122,7 +127,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		
 		if (x != 0) {
-			localPlayer.x++;
 			fakePlayer.x = x;
 			if (x != localPlayer.x) {
 				 if (x < localPlayer.x) {
@@ -148,12 +152,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			 fakePlayer.x = xVal;
 			 fakePlayer.y = yVal;
 		 }
+		 
+		 if (localPlayer != null && currentState == GAME) {
+			 localPlayer.y += 0.1;
+		 }
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		x = e.getPoint().x;
 		y = e.getPoint().y;
+		ballMain.generateBalls();
 	}
 	
 	@Override
