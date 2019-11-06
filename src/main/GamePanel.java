@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     ObjectManager objectManager;
     Map gameMap;
     BallsAI ballMain;
+    Camera cam;
     
     Timer frameDraw;
     Timer countdown;
@@ -41,7 +42,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     GamePanel() {
    		countdown = new Timer(1000,this);
         frameDraw = new Timer(1/60,this);
-        
         frameDraw.start();
         
         this.addMouseListener(this);
@@ -50,14 +50,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         characters = new ArrayList<Character>();
         objectManager = new ObjectManager(characters);
         
-        localPlayer = new Character(305, 180, 20,20,"character.png",null);
-        fakePlayer = new Character(305,180,20,20,"fakeCharacter.png",null);
-        
+        localPlayer = new Character(305, 180, 30,30,"character.png",null);
+        fakePlayer = new Character(305,180,30,30,"fakeCharacter.png",null);
         characters.add(localPlayer);
         characters.add(fakePlayer);
         
-        ballMain = new BallsAI(this);
         gameMap = new Map();
+        
+        ballMain = new BallsAI(this);
+        cam = new Camera(this,gameMap);
     }
     
     public void paintComponent(Graphics g) {
@@ -97,6 +98,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     			g.drawString(currentNumber + "", 300, 150);
     		}
     		objectManager.draw(g);
+    		cam.update();
     		gameMap.displayMap(g);
     		ballMain.displayBalls(g);
     }
@@ -125,43 +127,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				countdown.stop();
 			}
 		}
-		
-		if (x != 0) {
-			fakePlayer.x = x;
-			if (x != localPlayer.x) {
-				 if (x < localPlayer.x) {
-					 localPlayer.x--;
-				 } else if (x > localPlayer.x) {
-					 localPlayer.x++;
-				 }
-			 }
-		}
-		
-		if (y != 0) {
-			fakePlayer.y = y;
-			if (y != localPlayer.y) {
-				 if (y < localPlayer.y) {
-					 localPlayer.y--;
-				 } else if (y > localPlayer.y) {
-					 localPlayer.y++;
-				 }
-			 }
-		}
-		
-		 if (xVal >= 1 && yVal >= 1) {
-			 fakePlayer.x = xVal;
-			 fakePlayer.y = yVal;
-		 }
 		 
 		 if (localPlayer != null && currentState == GAME) {
-			 localPlayer.y += 0.1;
+			 //localPlayer.y += 0.1; fixo
 		 }
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		x = e.getPoint().x;
-		y = e.getPoint().y;
+		x = e.getX() + x;
+		y = e.getY() + y;
 		ballMain.generateBalls();
 	}
 	

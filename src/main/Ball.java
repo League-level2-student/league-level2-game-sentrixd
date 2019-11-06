@@ -28,6 +28,11 @@ public class Ball {
 		
 		loadImage(type + ".png");
 		
+		if (type == "evilspikey2") {
+			this.width = 50;
+			this.height = 50;
+		}
+		
 		//if (loadImageName != null) {
 		//	this.imageName = loadImageName;
 		//}
