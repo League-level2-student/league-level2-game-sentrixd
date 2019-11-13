@@ -1,4 +1,4 @@
-package main;
+       package main;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -22,11 +22,25 @@ public class Map {
 			g.draw(graphic);
 		}
 	}
+	
+	public static double[] interpolate(double start, double end, int count) {
+	    if (count < 2) {
+	        throw new IllegalArgumentException("interpolate: illegal count!");
+	    }
+	    double[] array = new double[count + 1];
+	    for (int i = 0; i <= count; ++ i) {
+	        array[i] = start + i * (end - start) / count;
+	    }
+	    return array;
+	}
 
 	void adjustMap(int x, int y) {
 		for (mapObjects g : mapArray) {
-			g.x = g.x-(x-(Platformer.WIDTH/2));
-			g.y = g.y-(y-(Platformer.HEIGHT/2));
+			System.out.println(g.x + (Platformer.WIDTH / 2) - x);
+			System.out.println(g.y - (Platformer.HEIGHT / 2) + y);
+			g.x = g.x + (Platformer.WIDTH / 2) - x;
+			g.y = g.y + (Platformer.HEIGHT / 2) - y;
+		//	g.y = g.y-(y-(Platformer.HEIGHT/2));
 		}
 	}
 }

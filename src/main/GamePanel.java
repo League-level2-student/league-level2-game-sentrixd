@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     final int MENU = 0;
     final int GAME = 1;
     final int END = 2;
+    final int INSTRUCTIONS = 3;
     
     Character localPlayer;
     Character fakePlayer;
@@ -70,6 +71,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			drawMenuState(g);
 		} else if (currentState == GAME) {
 			drawGameState(g);
+		} else if (currentState == INSTRUCTIONS) {
+			drawInstructionState(g);
 		}
 	}
 
@@ -86,21 +89,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
     
     void drawGameState(Graphics g) {
-    		// Title
-    		g.setFont(titleFont);
-    		g.setColor(Color.WHITE);
-    		g.drawString("Score: ", 300, 50);
-    		// Countdown
-    		g.setFont(countdownFont);
-    		g.setColor(new Color(15,235,3));
-    	
-    		if (currentNumber != 15) {
-    			g.drawString(currentNumber + "", 300, 150);
-    		}
-    		objectManager.draw(g);
-    		cam.update();
-    		gameMap.displayMap(g);
-    		ballMain.displayBalls(g);
+    	// Title
+    	g.setFont(titleFont);
+    	g.setColor(Color.WHITE);
+   		g.drawString("Score: ", 300, 50);
+   		// Countdown
+   		g.setFont(countdownFont);
+   		g.setColor(new Color(15,235,3));
+   		if (currentNumber != 15) {
+   			g.drawString(currentNumber + "", 300, 150);
+    	}
+   		objectManager.draw(g);
+   		cam.update();
+   		gameMap.displayMap(g);
+   		ballMain.displayBalls(g);
+    }
+    
+    void drawInstructionState(Graphics g) {
+    	// Font
+    	g.setFont(lowerFont1);
+    	g.setColor(Color.RED);
+    	g.drawString("hi", 50, 50);
     }
 
 	public void keyPressed(KeyEvent e) {
@@ -111,6 +120,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				gameMap.loadMap();
 				ballMain.generateBalls();
 			}
+		} else if (e.getKeyCode() == KeyEvent.VK_I) {
+			currentState = INSTRUCTIONS;
 		}
 	}
 
@@ -135,8 +146,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		x = e.getX() + x;
-		y = e.getY() + y;
+		x = e.getX();
+		y = e.getY();
 		ballMain.generateBalls();
 	}
 	

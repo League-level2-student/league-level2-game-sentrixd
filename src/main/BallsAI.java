@@ -48,11 +48,11 @@ public class BallsAI {
 			int y = new Random().nextInt(251);
 			int chunck = chunckSize / 2 + 1;
 
-			System.out.println(chance);
+			//System.out.println(chance);
 			if (chance >= 100) {
 				int ballType = new Random().nextInt(3);
 
-				System.out.println(ballType);
+				//System.out.println(ballType);
 
 				if (ballType == 1) {
 					//createBall(x, y, "Health");
