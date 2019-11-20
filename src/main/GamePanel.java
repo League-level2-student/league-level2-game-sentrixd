@@ -4,8 +4,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.Timer;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 //fakePlayer FIX
 
@@ -14,6 +13,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     final int GAME = 1;
     final int END = 2;
     final int INSTRUCTIONS = 3;
+    final int ENDSCREEN = 4;
+    final int SHOP = 5;
+    final int SETTINGS = 6;
     
     Character localPlayer;
     Character fakePlayer;
@@ -26,8 +28,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     Timer frameDraw;
     Timer countdown;
     
-    Font titleFont = new Font("Avenir Next", Font.BOLD, 42);;
-    Font lowerFont1 = new Font("Avenir Next", Font.PLAIN, 16);;
+    Font titleFont = new Font("Avenir Next", Font.BOLD, 42);
+    Font titleFont1 = new Font("Avenir Next", Font.PLAIN, 42);
+    Font lowerFont1 = new Font("Avenir Next", Font.PLAIN, 16);
     Font countdownFont = new Font("Avenir Next", Font.PLAIN, 32);
     
     int currentState = MENU;	
@@ -63,7 +66,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     }
     
     public void paintComponent(Graphics g) {
-    		// set color
+    	// set color
 		g.setColor(new Color(33,33,33));
 		g.fillRect(0, 0, Platformer.WIDTH, Platformer.HEIGHT);
 		
@@ -73,6 +76,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			drawGameState(g);
 		} else if (currentState == INSTRUCTIONS) {
 			drawInstructionState(g);
+		} else if (currentState == SHOP) {
+			drawShop(g);
 		}
 	}
 
@@ -86,6 +91,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setColor(new Color(15,235,3));
 		g.drawString("Press space to start", 300, 350);
 		
+		g.setColor(Color.WHITE);
+		
+		// 200 150 to 325 275
+		
+		g.fillRect(200, 150, 125, 125);
+		g.setColor(Color.BLACK);
+		g.drawString("Play", 250, 225);
+		// 375 150 to 500 275
+		g.setColor(Color.ORANGE);
+		g.fillRect(375, 150, 125, 125);
+		g.setColor(Color.white);
+		g.drawString("Shop", 425, 225);
 	}
     
     void drawGameState(Graphics g) {
@@ -96,9 +113,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
    		// Countdown
    		g.setFont(countdownFont);
    		g.setColor(new Color(15,235,3));
+   		
    		if (currentNumber != 15) {
    			g.drawString(currentNumber + "", 300, 150);
     	}
+   		
    		objectManager.draw(g);
    		cam.update();
    		gameMap.displayMap(g);
@@ -107,9 +126,25 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     
     void drawInstructionState(Graphics g) {
     	// Font
-    	g.setFont(lowerFont1);
+    	g.setFont(titleFont1);
     	g.setColor(Color.RED);
-    	g.drawString("hi", 50, 50);
+    	g.drawString("Instructions:", 50, 50);
+    	g.setFont(lowerFont1);
+    	g.setColor(Color.MAGENTA);
+    	g.drawString("    Use the mouse to move around! By clicking, the ball or square which ever you choose will", 50, 100);
+    	g.drawString("head to.", 50, 125);
+    	g.setColor(Color.CYAN);
+    	g.drawString("    Try avoiding the red spikes! They will attack you and if you get too close then it will blow", 50, 175);
+    	g.drawString("up and you will die! The balls that look like '+' icons give you health! Regular balls (blue ones)", 50, 200);
+    	g.drawString("give you score points which you can trade in for upgrades such as power-ups, new character", 50, 225);
+    	g.drawString("designs and particles!", 50, 250);
+    	g.setColor(Color.RED);
+    	g.drawString("Press [B] to return to the menu", 500, 35);
+    }
+    
+    void drawShop(Graphics g) {
+    	g.setColor(Color.WHITE);
+    	g.fillRect(50, 50, 20, 350);
     }
 
 	public void keyPressed(KeyEvent e) {
@@ -122,6 +157,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_I) {
 			currentState = INSTRUCTIONS;
+		} else if (e.getKeyCode() == KeyEvent.VK_B) {
+			if (currentState == INSTRUCTIONS) {
+				currentState = MENU;
+			}
 		}
 	}
 
@@ -148,6 +187,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseReleased(MouseEvent e) {
 		x = e.getX();
 		y = e.getY();
+		
+		int q,z;
+		
+		q = e.getX(); z = e.getY();
+		
+		// 200 150 to 325 275
+		// 375 150 to 500 275
+		// Button connections
+		if (currentState == MENU) {
+			if (q > 200 && z > 150) {
+				if (q < 325 && z < 275) {
+					currentState = GAME;
+					countdown.start();
+					gameMap.loadMap();
+					ballMain.generateBalls();
+				}
+			} 
+			if (q > 375 && z > 150) {
+				if (q < 500 && z < 275) {
+					currentState = SHOP;
+				}
+			}
+		}
+		
 		ballMain.generateBalls();
 	}
 	
