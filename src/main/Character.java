@@ -21,6 +21,8 @@ public class Character extends GameObject {
 		super(x,y,sizeX,sizeY,loadImageName,colorValue);
 		this.x = x;
 		this.y = y;
+		System.out.println(loadImageName);
+		
 		if (needImage) {
 		    loadImage (loadImageName);
 		}
@@ -31,9 +33,9 @@ public class Character extends GameObject {
 		super.draw(g);
 		
         if (gotImage) {
-        		g.drawImage(image, x, y, width, height, null);
+        	g.drawImage(image, x, y, width, height, null);
         } else {
-        		g.drawOval(305, 180, width, height);
+        	g.drawOval(305, 180, width, height);
         }
 	}
 	

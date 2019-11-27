@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
     Character fakePlayer;
     ArrayList<Character> characters;
     ObjectManager objectManager;
+    Particles particles;
     Map gameMap;
     BallsAI ballMain;
     Camera cam;
@@ -58,6 +59,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         fakePlayer = new Character(305,180,30,30,"fakeCharacter.png",null);
         characters.add(localPlayer);
         characters.add(fakePlayer);
+        particles = new Particles();
         
         gameMap = new Map();
         
@@ -122,6 +124,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
    		cam.update();
    		gameMap.displayMap(g);
    		ballMain.displayBalls(g);
+   		particles.updateParticles(g);
     }
     
     void drawInstructionState(Graphics g) {
@@ -212,6 +215,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		
 		ballMain.generateBalls();
+		particles.createParticles(1);
+		
+		
+		//void createParticles(GameObject g, int ParticleType) {
 	}
 	
 	@Override
