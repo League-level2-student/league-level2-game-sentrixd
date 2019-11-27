@@ -8,11 +8,11 @@ import java.util.Random;
 public class Particles {
 	int Explosion = 1;
 	
-	ArrayList<Character> Objects = new ArrayList<Character>();
+	ArrayList<ParticleCharacter> Objects = new ArrayList<ParticleCharacter>();
 	
 	int createObject(int x, int y, int sx, int sy, String image, Color color) {
 		// Insert a new object
-		Objects.add(new Character(x,y,sx,sy,image,color));
+		Objects.add(new ParticleCharacter(x,y,sx,sy,image,color));
 		
 		// Return it's index
 		return Objects.size();
@@ -31,9 +31,8 @@ public class Particles {
 	}
 	
 	void updateParticles(Graphics graphic) {
-		for (Character g: Objects) {
+		for (ParticleCharacter g: Objects) {
 			g.draw(graphic);
-			System.out.println(g.image);
 		}
 	}
 }

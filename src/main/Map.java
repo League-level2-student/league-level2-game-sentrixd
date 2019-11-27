@@ -36,8 +36,6 @@ public class Map {
 
 	void adjustMap(int x, int y) {
 		for (mapObjects g : mapArray) {
-			System.out.println(g.x + (Platformer.WIDTH / 2) - x);
-			System.out.println(g.y - (Platformer.HEIGHT / 2) + y);
 			g.x = g.x + (Platformer.WIDTH / 2) - x;
 			g.y = g.y + (Platformer.HEIGHT / 2) - y;
 		//	g.y = g.y-(y-(Platformer.HEIGHT/2));

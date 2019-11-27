@@ -7,10 +7,9 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class Character extends GameObject {
-	public static BufferedImage image;
-	public static boolean needImage = true;
-	public static boolean gotImage = false;
-	
+	public BufferedImage image;
+	public boolean needImage = true;
+	public boolean gotImage = false;
 	
 	int x;
 	int y;
@@ -21,10 +20,9 @@ public class Character extends GameObject {
 		super(x,y,sizeX,sizeY,loadImageName,colorValue);
 		this.x = x;
 		this.y = y;
-		System.out.println(loadImageName);
 		
 		if (needImage) {
-		    loadImage (loadImageName);
+		    loadImage(loadImageName);
 		}
 	}
 	

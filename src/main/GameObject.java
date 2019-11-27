@@ -18,8 +18,9 @@ public class GameObject {
 		this.y = y;
 		this.width = sizeX;
 		this.height = sizeY;
+		
 		if (loadImageName != null) {
-			this.imageName = loadImageName;
+			imageName = loadImageName;
 		}
 		collisionBox = new Rectangle(x, y, sizeX, sizeY);
 	}

@@ -23,6 +23,6 @@ public class mapObjects extends GameObject {
 		super.draw(g);
 		
 		g.setColor(colorValue);
-        	g.fillRect(x, y, width, height);
+        g.fillRect(x, y, width, height);
 	}
 }

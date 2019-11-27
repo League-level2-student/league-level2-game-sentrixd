@@ -57,6 +57,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
         
         localPlayer = new Character(305, 180, 30,30,"character.png",null);
         fakePlayer = new Character(305,180,30,30,"fakeCharacter.png",null);
+        
         characters.add(localPlayer);
         characters.add(fakePlayer);
         particles = new Particles();

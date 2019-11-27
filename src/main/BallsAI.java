@@ -52,8 +52,6 @@ public class BallsAI {
 			if (chance >= 100) {
 				int ballType = new Random().nextInt(3);
 
-				//System.out.println(ballType);
-
 				if (ballType == 1) {
 					//createBall(x, y, "Health");
 				} else if (ballType == 2) {
