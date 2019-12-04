@@ -20,13 +20,14 @@ public class Particles {
 	
 	void createParticles(int ParticleType) {
 		if (ParticleType == Explosion) {
-			int r = new Random().nextInt(10)-3;
+			int particlesAmount = new Random().nextInt(3) + 3;
+			
+			System.out.println(particlesAmount);
 			
 			// Create new objects
-			//for (int i = 0; i > r; i ++) {
-			createObject(50,50,50,50,"explosion.png",new Color(255,255,255));
-				//System.out.println("Created object");
-			//}
+			for (int i = 0; i < particlesAmount; i ++) {
+				createObject(50,50,50,50,"explosion.png",new Color(255,255,255));
+			}
 		}
 	}
 	

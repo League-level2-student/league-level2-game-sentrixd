@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -14,31 +15,34 @@ public class ParticleCharacter extends GameObject {
 	public BufferedImage[] images = new BufferedImage[5];
 	
 	
-	int x;
-	int y;
-	int targetX;
-	int targetY;
+	int x, y, targetX, targetY;
+	int imageIndex;
 	
 	ParticleCharacter(int x, int y, int sizeX, int sizeY,String loadImageName,Color colorValue) {
 		super(x,y,sizeX,sizeY,loadImageName,colorValue);
 		this.x = x;
 		this.y = y;
 		
-		if (needImage) {	
+		if (needImage) {
 			for (int i = 0; i < images.length; i++) {
 				images[i] = loadImage("Explosion" + i + ".png");
 			}
 		}
+		
+		// Update image index
+		imageIndex = new Random().nextInt(5);
+		
+		System.out.println("test");
 	}
 	
-	void draw(Graphics g) {
+	void draw(Graphics graphic) {
 		super.update();
-		super.draw(g);
+		super.draw(graphic);
 		
         if (gotImage) {
-        	g.drawImage(image, x, y, width, height, null);
+        	graphic.drawImage(images[imageIndex], x, y, width, height, null);
         } else {
-        	g.drawOval(305, 180, width, height);
+        	graphic.drawOval(305, 180, width, height);
         }
 	}
 	
@@ -53,5 +57,7 @@ public class ParticleCharacter extends GameObject {
 		        return null;
 	        }
 	    }
+	    
+	    return null;
 	}
 }
