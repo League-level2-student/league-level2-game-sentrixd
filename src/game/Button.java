@@ -6,7 +6,6 @@ public class Button {
 	
 	
 	Button(int x, int y, int sizex, int sizey, String methodName) {
-		System.out.println("New button was created!");
 		this.x = x;
 		this.y = y;
 		this.sizex = sizex;

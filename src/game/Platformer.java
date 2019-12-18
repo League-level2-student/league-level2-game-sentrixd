@@ -1,8 +1,5 @@
 package game;
 
-import java.awt.Graphics;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 
 public class Platformer {
@@ -32,6 +29,13 @@ public class Platformer {
 		// Frame setup
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
+		frame.setTitle("The boomer game");
+		
+		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		//int x = (int) screenSize.getHeight();
+		//int y = (int) screenSize.getWidth();
+		
 		frame.setVisible(true);
 	}
 

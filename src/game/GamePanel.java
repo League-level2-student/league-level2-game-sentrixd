@@ -2,7 +2,14 @@
  * Some quick things to remember:
  * In the mouse table:
  * 	mouse[0] returns x
- * 	mouse[1] retirms y
+ * 	mouse[1] returns y
+ * 
+ * States:
+ * states[0] default character choosing
+ * states[1] Menu
+ * states[2] Game
+ * states[3] End Screen
+ * states[4] Shop
  */
 
 
@@ -31,6 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 	String[] states = new String[5];
 	Font[] fonts = new Font[2];
 	int[] mouse = new int[2];
+	boolean[] debounce = new boolean[1];
 	
 	ArrayList<Button> buttons = new ArrayList<Button>(0);
 	
@@ -47,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 		fonts[1] = new Font("Avenir Next", Font.PLAIN, 16); // Description 1
 		
 		// Start the frame draw
-		frameDraw = new Timer(1/60,this);
+		frameDraw = new Timer(1000/60,this);
         frameDraw.start();
         
         // Update the null state to Choosing Character
@@ -58,11 +66,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
         this.addMouseMotionListener(this);
 	}
 	
-	void createButton(Graphics graphic, int x, int y, int width, int height, String text, Color Background, Color TextColor, String methodName) {
+	void createButton(Graphics graphic, int x, int y, int width, int height, String text, Color Background, Color TextColor, String methodName, String type) {
 		graphic.setColor(Background);
 		
 		if (methodName == "chooseBall") {
 			graphic.fillOval(x, y, width, height);
+		} else if (type.equals("rounded")) {
+			graphic.fillRoundRect(x, y, width, height, 12, 12);
 		} else {
 			graphic.fillRect(x, y, width, height);
 		}
@@ -83,8 +93,6 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	void drawCharacterState(Graphics graphic) {
-		
-		
 		// Title text
 		graphic.setColor(new Color(220, 220, 220));
 		graphic.setFont(fonts[0]);
@@ -96,16 +104,24 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 		graphic.drawString("Pick something nice for yourself, the square or the ball.", 55, 85);
 		
 		// Buttons
-		createButton(graphic, 50, 100, 175, 175, "Square", new Color(232,23,2), new Color(255, 255, 255), "chooseSquare");
-		createButton(graphic, 450, 100, 175, 175, "Ball", new Color(232,23,2), new Color(255, 255, 255), "chooseBall");
+		createButton(graphic, 50, 100, 175, 175, "Square", new Color(232,23,2), new Color(255, 255, 255), "chooseSquare", "");
+		createButton(graphic, 450, 100, 175, 175, "Ball", new Color(232,23,2), new Color(255, 255, 255), "chooseBall", "");
 	}
 	
 	void drawMenuState(Graphics graphic) {
+		graphic.setColor(new Color(220, 220, 220));
 		graphic.setFont(fonts[0]);
-		graphic.drawString("Menu", 5, 5);
+		graphic.drawString("Menu", 15, 50);
+		
+		// Buttons
+		createButton(graphic,(Platformer.WIDTH / 2) - 200, 75, 400, 50, "Play", new Color(255, 255, 255), new Color(0,0,0), "PlayGame", "rounded");
 	}
 	
-	
+	void drawGameState(Graphics graphic) {
+		graphic.setColor(new Color(255, 255, 255));
+		graphic.setFont(font[1]);
+		graphic.drawString(str, x, y);
+	}
 	
 	public void paintComponent(Graphics graphic) {
 		// Create the background
@@ -117,6 +133,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 			drawCharacterState(graphic);
 		} else if (state == states[1]) {
 			drawMenuState(graphic);
+		} else if (state == states[2]) {
+			drawGameState(graphic);
 		}
 	}
 	
@@ -128,25 +146,36 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {		
+		if (debounce[0] == true) {
+			return;
+		}
+		
+		debounce[0] = true;
+		
 		for (Button b: buttons) {
+			
 			// Check if the mouse goes within the constraints
-			if (mouse[0] > b.x && mouse[0] < b.sizex && mouse[1] > b.y && mouse[1] < b.sizey) {
+			if (mouse[0] > b.x && mouse[0] < b.x + b.sizex && mouse[1] > b.y && mouse[1] < b.y + b.sizey) {
 				// Get the method states and return the needed values
 				if (b.methodName == "chooseSquare") {
 					state = states[1];
 				} else if (b.methodName == "chooseBall") {
 					state = states[1];
+				} else if (b.methodName == "PlayGame") {
+					state = states[2];
 				} else {
 					System.out.println("Unknown method");
 				}
 			}
 		}
+		
+		debounce[0] = false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		repaint();
 	}
 
 	@Override
