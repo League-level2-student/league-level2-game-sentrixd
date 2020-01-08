@@ -17,7 +17,9 @@ package game;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -32,15 +34,20 @@ import main.Platformer;
 import main.mapObjects;
 
 public class GamePanel extends JPanel implements ActionListener, MouseMotionListener, MouseListener {
+	Character player;
+	
 	Timer frameDraw;
 	
 	String state;
 	String[] states = new String[5];
-	Font[] fonts = new Font[2];
+	Font[] fonts = new Font[3];
 	int[] mouse = new int[2];
 	boolean[] debounce = new boolean[1];
 	
 	ArrayList<Button> buttons = new ArrayList<Button>(0);
+	
+	// Data
+	int score = 0;
 	
 	GamePanel() {
 		// Intialize all of the States
@@ -53,6 +60,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 		// Initialize all fonts
 		fonts[0] = new Font("Avenir Next", Font.PLAIN, 42); // Header
 		fonts[1] = new Font("Avenir Next", Font.PLAIN, 16); // Description 1
+		fonts[2] = new Font("Avenir Next", Font.PLAIN,64); // score
 		
 		// Start the frame draw
 		frameDraw = new Timer(1000/60,this);
@@ -60,6 +68,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
         
         // Update the null state to Choosing Character
         state = states[0];
+        
+        // Create the character
+        player = new Character((Platformer.WIDTH / 2) - 20, (Platformer.HEIGHT / 2) - 20);
         
         // Add all listeners
         this.addMouseListener(this);
@@ -92,6 +103,22 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 		buttons.add(button);
 	}
 	
+	void updateScore(Graphics graphic, Rectangle rect) {
+		String text = "Score : " + score;
+		
+		graphic.setColor(new Color(255, 255, 255));
+		graphic.setFont(fonts[2]);
+		
+		// Get font metrics and as getting the set font
+		FontMetrics metrics = graphic.getFontMetrics(graphic.getFont());
+		
+		int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+	    int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+	    
+	    // draw string
+	    graphic.drawString(text, x, y);
+	}
+	
 	void drawCharacterState(Graphics graphic) {
 		// Title text
 		graphic.setColor(new Color(220, 220, 220));
@@ -118,9 +145,23 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 	}
 	
 	void drawGameState(Graphics graphic) {
-		graphic.setColor(new Color(255, 255, 255));
-		graphic.setFont(font[1]);
-		graphic.drawString(str, x, y);
+		updateScore(graphic, new Rectangle(200,25,275,65));
+		
+		if (mouse[0] != 0 && mouse[1] != 0) {
+			graphic.drawLine(Platformer.WIDTH / 2,Platformer.HEIGHT / 2, mouse[0], mouse[1]);
+		}
+		
+		player.draw(graphic);
+	}
+	
+	void DrawEndScreen(Graphics g) {
+		g.drawString("Score: " + score,5,5); 
+		g.drawString("~ Stats ~",10,10);
+		g.drawString("Total Kills: ",20,20);
+		g.drawString("Regular kills: ",30,30);
+		g.drawString("Spikes killed: ",40,40);
+		g.drawString("Health picked up: ",50,50);
+		g.drawString("Total time alive: ",60,60);
 	}
 	
 	public void paintComponent(Graphics graphic) {
@@ -135,6 +176,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 			drawMenuState(graphic);
 		} else if (state == states[2]) {
 			drawGameState(graphic);
+		} else if (state == states[3]) {
+			DrawEndScreen(graphic);
 		}
 	}
 	

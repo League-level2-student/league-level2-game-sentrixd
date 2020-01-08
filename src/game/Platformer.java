@@ -29,13 +29,13 @@ public class Platformer {
 		// Frame setup
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(WIDTH, HEIGHT);
-		frame.setTitle("The boomer game");
+		frame.setResizable(false);
 		
-		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// Simple customizations
+		frame.setTitle("Particle battles");
+		frame.setLocationRelativeTo(null);
 		
-		//int x = (int) screenSize.getHeight();
-		//int y = (int) screenSize.getWidth();
-		
+		// Make the frame visible
 		frame.setVisible(true);
 	}
 
