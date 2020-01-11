@@ -72,6 +72,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
         // Create the character
         player = new Character((Platformer.WIDTH / 2) - 20, (Platformer.HEIGHT / 2) - 20);
         
+        // Map testing
+        Map mappy = new Map();
+        
+        mappy.CreateMap();
+        
         // Add all listeners
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
