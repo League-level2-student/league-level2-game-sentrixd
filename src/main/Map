@@ -1,7 +1,0 @@
-// To comment
-rect to create a rectangle
-circle to create a circle
-color to set color
-image to set image
-order from top to bottom
-rect 100 200 30 30 false

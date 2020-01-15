@@ -30,16 +30,13 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import main.Platformer;
-import main.mapObjects;
-
 public class GamePanel extends JPanel implements ActionListener, MouseMotionListener, MouseListener {
 	Character player;
 	
 	Timer frameDraw;
 	
 	String state;
-	String[] states = new String[5];
+	String[] states = new String[6];
 	Font[] fonts = new Font[3];
 	int[] mouse = new int[2];
 	boolean[] debounce = new boolean[1];
@@ -56,6 +53,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseMotionList
 		states[2] = "Game";
 		states[3] = "End Screen";
 		states[4] = "Shop";
+		states[5] = "Map Choose";
 		
 		// Initialize all fonts
 		fonts[0] = new Font("Avenir Next", Font.PLAIN, 42); // Header

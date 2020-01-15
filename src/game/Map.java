@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import main.mapObjects;
-
 
 public class Map {
 	ArrayList<MapObjects> mapArray = new ArrayList<MapObjects>();
@@ -85,7 +83,7 @@ public class Map {
 	}
 	
 	void CreateObject(String name, int xSize, int ySize, int x, int y, Color color) { 
-		
+		//mapArray.add(new mapObjects(xSize, ySize,x ,y, color));
 	}
 	
 	void displayMap(Graphics graphic) {
