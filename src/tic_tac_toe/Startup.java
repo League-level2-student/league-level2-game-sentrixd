@@ -6,7 +6,7 @@ import game.GamePanel;
 import game.Platformer;
 
 public class Startup {
-	JFrame frame;
+	static JFrame frame;
 	
 	GameMain gamePanelInstance;
 	
