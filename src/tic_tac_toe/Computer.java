@@ -12,9 +12,9 @@ public class Computer {
 	
 	int mode = 0;
 	
-	void Update(ArrayList<Integer> taclist, int side) {
+	void update(ArrayList<Integer> taclist, int side) {
 		if (mode == 1) {
-			UpdateEasy(taclist, side);
+			updateEasy(taclist, side);
 		} else if (mode == 2) {
 			
 		} else if (mode == 3) {
@@ -22,18 +22,22 @@ public class Computer {
 		}
 	}
 	
-	void UpdateEasy(ArrayList<Integer> taclist, int side) {
+	void updateEasy(ArrayList<Integer> taclist, int side) {
 		while (true) {
-			int randomPlace = RandomPlace();
+			int randomPlaceIndex = randomPlace();
 			
-			int place = taclist.get(randomPlace);
+			int place = taclist.get(randomPlaceIndex);
 			
 			if (place <= 0) {
-				taclist.set(randomPlace, side);
+				taclist.set(randomPlaceIndex, side);
 					
 				break;
 			}
 		}
+	}
+	
+	void checkIfWon() {
+		
 	}
 	
 	// Random Place: //
@@ -45,13 +49,17 @@ public class Computer {
 	 * 	place down a (x or a o) for easy
 	 * 	mode
 	 */
-	int RandomPlace() {
+	int randomPlace() {
 		int givenPlace = new Random().nextInt(9);
 		
 		return givenPlace;
 	}
 	
-	void SetMode(int mode) {
+	void setMode(int mode) {
 		this.mode = mode;
+	}
+	
+	int getMode() {
+		return this.mode;
 	}
 }

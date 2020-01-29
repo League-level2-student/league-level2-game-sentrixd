@@ -34,10 +34,12 @@ public class Startup {
 		frame.setResizable(false);
 		
 		// Simple customizations
-		frame.setTitle("Particle battles");
+		frame.setTitle("Tic wac yo toe");
 		frame.setLocationRelativeTo(null);
 		
 		// Make the frame visible
 		frame.setVisible(true);
+		
+		System.out.println("Loaded Panel!");
 	}
 }
