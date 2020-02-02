@@ -3,8 +3,10 @@ package tic_tac_toe;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -16,8 +18,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	int[] states 	= new int[4];
 	Font[] fonts 	= new Font[2];
 
- 	
 	int state;
+	int turn;
 	
 	public BufferedImage image;
 	public boolean needImage = true;
@@ -25,7 +27,6 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	
 	String playerName;
 	
-	ArrayList<Integer> taclist = new ArrayList<Integer>();
 	ArrayList<JButton> tacbuttons = new ArrayList<JButton>();
 	
 	JButton playButton;
@@ -49,13 +50,9 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		computer = new Computer();
 		
 		state = states[0];
+		turn = 0; // Player's turn
 		
 		CreateBackground();
-		
-		// ArrayList //
-		for (int i = 0; i < 9; i++) {
-			taclist.add(i, 0);
-		}
 	}
 	
 	void CreateBackground() {
@@ -106,19 +103,41 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			easyButton.addMouseListener(this);
 			hardButton.addMouseListener(this);
 		} else if (state == states[2]) {
-			// Button // 
-			for (int i = 0; i < 9; i++) {
-				JButton clickedButton = new JButton("uwu");
+			// Insert the background afterwards
+			this.add(background, 0);
+			
+			int x = 0;
+			int y = 90;
+			
+			// Button //        11 weird but epic
+			for (int i = 0; i < 11; i++) {		
+				tacbuttons.add(new JButton());
+				// Add the clicked Button variable
+				JButton clickedButton = tacbuttons.get(tacbuttons.size() - 1);
 				
-				tacbuttons.add(clickedButton);
 				
-				clickedButton.setBounds(i + 10 + 20,50,50,50);
+				int xBound = 0;
+				int width = Startup.WIDTH / 3;
 				
-				this.add(background, 0);
+				xBound = x * width;
+				
+				if (x >= 3) {
+					x = 0;
+					y += 55;
+				} else {
+					x++;
+				}
+				
+				clickedButton.setBounds(xBound + 40, y, 50, 50);
+					
 				this.add(clickedButton, i);
-				
 				moveToFront(clickedButton);
+				
+				// Add button
+				clickedButton.addMouseListener(this);
 			}
+			
+			
 		}
 	}
 	
@@ -129,8 +148,6 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			
 			// Load the background
 			CreateBackground();
-			
-			System.out.println("ok");
 		}
 	}
 	
@@ -170,8 +187,34 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			state = states[2];
 			
 			loadGame();
+		}
+		
+		
+		// check if one of those x or o 
+		
+		for (int i = 0; i < tacbuttons.size(); i++) {
+			JButton g = tacbuttons.get(i);
 			
-			System.out.println("Loading game JPanel ...");
+			if (e.getSource().equals(g)) {
+				
+				// if (turn == player) //
+				if (turn == 0) {
+					g.setText("x");
+					
+					// change the turn to the computer
+					turn = 1;
+					
+					// request the computer class to make a move
+					int updatedPosition = computer.update(tacbuttons);
+					
+					JButton computerHit = tacbuttons.get(updatedPosition);
+					computerHit.setText("o");
+					
+					computer.checkIfWon(tacbuttons);
+					
+					turn = 0;
+				}
+			}
 		}
 	}
 
