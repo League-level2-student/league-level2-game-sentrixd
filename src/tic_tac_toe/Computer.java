@@ -14,32 +14,19 @@ public class Computer {
 	
 	int mode = 0;
 	
-	int update(ArrayList<JButton> tacbuttons) {
-		int placement = 0;
-		
+	int[] plays = new int[9];
+	
+	void update(int index, int type) {
 		if (mode == 1) {
-			for (int i = 0; i < 100; i++) {
-				int randomPlaceIndex = randomPlace();
-				
-				JButton button = tacbuttons.get(randomPlaceIndex);
-				
-				int place = 0;
-				
-				if (button.getText().equals("x") || button.getText().equals("o")) {
-					place = 1;
-				}
-				
-				if (place == 0) {
-					placement = randomPlaceIndex;
-				}
-			}
+			plays[index] = type;
+			
+			
+			checkIfWon();
 		} else if (mode == 2) {
 			
 		} else if (mode == 3) {
 			
 		}
-		
-		return placement;
 	}
 	
 	// Check if won //
@@ -50,28 +37,10 @@ public class Computer {
 	 * 	and returns 2 if computer won
 	 */
 	
-	int checkIfWon(ArrayList<JButton> tacbuttons) {
-		
-		for (int i = 0; i < 9; i++) {
-			System.out.println(tacbuttons.get(i).getText());
+	void checkIfWon() {
+		if (plays[0] == 1 && plays[1] == 1 && plays[2] == 1) {
+			System.out.println("woop de dang dooo");
 		}
-		
-		return 0;
-	}
-	
-	// Random Place: //
-	/*
-	 * Description:
-	 * 
-	 * 		Returns a random number from
-	 * 	0-8 which can be used to randomly 
-	 * 	place down a (x or a o) for easy
-	 * 	mode
-	 */
-	int randomPlace() {
-		int givenPlace = new Random().nextInt(9);
-		
-		return givenPlace;
 	}
 	
 	// Returns the current mode //

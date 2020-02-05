@@ -27,7 +27,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	
 	String playerName;
 	
-	ArrayList<JButton> tacbuttons = new ArrayList<JButton>();
+	JButton[] tacbuttons = new JButton[9];
 	
 	JButton playButton;
 	JButton hiButton;
@@ -109,12 +109,12 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			int x = 0;
 			int y = 90;
 			
-			// Button //        11 weird but epic
-			for (int i = 0; i < 11; i++) {		
-				tacbuttons.add(new JButton());
+			// Button //
+			for (int i = 0; i < 9; i++) {
+				System.out.println("YEET");
+				tacbuttons[i] = new JButton();
 				// Add the clicked Button variable
-				JButton clickedButton = tacbuttons.get(tacbuttons.size() - 1);
-				
+				JButton clickedButton = tacbuttons[i];
 				
 				int xBound = 0;
 				int width = Startup.WIDTH / 3;
@@ -136,15 +136,13 @@ public class GameMain extends JLayeredPane implements MouseListener {
 				// Add button
 				clickedButton.addMouseListener(this);
 			}
-			
-			
 		}
 	}
 	
 	void loadGame() {
 		if (state == states[2]) {
 			// Clear the ArrayList
-			tacbuttons.removeAll(tacbuttons);
+			tacbuttons = new JButton[9];
 			
 			// Load the background
 			CreateBackground();
@@ -192,8 +190,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		
 		// check if one of those x or o 
 		
-		for (int i = 0; i < tacbuttons.size(); i++) {
-			JButton g = tacbuttons.get(i);
+		for (int i = 0; i < tacbuttons.length; i++) {
+			JButton g = tacbuttons[i];
 			
 			if (e.getSource().equals(g)) {
 				
@@ -204,13 +202,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 					// change the turn to the computer
 					turn = 1;
 					
-					// request the computer class to make a move
-					int updatedPosition = computer.update(tacbuttons);
-					
-					JButton computerHit = tacbuttons.get(updatedPosition);
-					computerHit.setText("o");
-					
-					computer.checkIfWon(tacbuttons);
+					computer.update(i, 1);
 					
 					turn = 0;
 				}
