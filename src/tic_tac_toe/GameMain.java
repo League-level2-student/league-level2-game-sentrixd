@@ -121,7 +121,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 				
 				xBound = x * width;
 				
-				if (x >= 3) {
+				if (x >= 2) {
 					x = 0;
 					y += 55;
 				} else {
@@ -129,7 +129,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 				}
 				
 				clickedButton.setBounds(xBound + 40, y, 50, 50);
-					
+				System.out.println(xBound + 40 + " " + y);
 				this.add(clickedButton, i);
 				moveToFront(clickedButton);
 				
