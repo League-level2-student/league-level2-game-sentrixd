@@ -6,7 +6,7 @@ import game.GamePanel;
 import game.Platformer;
 
 public class Startup {
-	static JFrame frame;
+	public static JFrame frame;
 	
 	GameMain gamePanelInstance;
 	
@@ -39,7 +39,5 @@ public class Startup {
 		
 		// Make the frame visible
 		frame.setVisible(true);
-		
-		System.out.println("Loaded Panel!");
 	}
 }

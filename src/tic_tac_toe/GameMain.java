@@ -1,10 +1,15 @@
 package tic_tac_toe;
 
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,13 +18,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 public class GameMain extends JLayeredPane implements MouseListener {
 	int[] states 	= new int[4];
 	Font[] fonts 	= new Font[2];
 
 	int state;
-	int turn;
 	
 	public BufferedImage image;
 	public boolean needImage = true;
@@ -34,6 +39,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	
 	JButton easyButton;
 	JButton hardButton;
+	
+	JLabel instructions;
 	
 	Computer computer;
 	
@@ -50,7 +57,6 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		computer = new Computer();
 		
 		state = states[0];
-		turn = 0; // Player's turn
 		
 		CreateBackground();
 	}
@@ -70,17 +76,23 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			// Buttons //
 			playButton 	= new JButton("Play");
 			hiButton	= new JButton("hi wack yo toe");
-		
+			instructions= new JLabel ("<html>Basicly you click play, choose the mode and then you<br/>click the buttons then once you do that you need <br/> to get 3 in a row.</html>");
+			
+			instructions.setForeground(Color.white);
+			
 			playButton.setBounds(25,150,350,50);
 			hiButton.setBounds(25,210,350,50);
+			instructions.setBounds(25, 400, 400, 200);
 		
 		
 			this.add(background, 0);
 			this.add(playButton, 1);	
 			this.add(hiButton, 1);
+			this.add(instructions,2);
 		
 			moveToFront(playButton);
 			moveToFront(hiButton);
+			moveToFront(instructions);
 		
 			playButton.addMouseListener(this);
 			hiButton.addMouseListener(this);
@@ -111,7 +123,6 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			
 			// Button //
 			for (int i = 0; i < 9; i++) {
-				System.out.println("YEET");
 				tacbuttons[i] = new JButton();
 				// Add the clicked Button variable
 				JButton clickedButton = tacbuttons[i];
@@ -121,17 +132,17 @@ public class GameMain extends JLayeredPane implements MouseListener {
 				
 				xBound = x * width;
 				
+				clickedButton.setBounds(xBound + 40, y, 50, 50);
+
+				this.add(clickedButton, i);
+				moveToFront(clickedButton);
+				
 				if (x >= 2) {
 					x = 0;
 					y += 55;
 				} else {
 					x++;
 				}
-				
-				clickedButton.setBounds(xBound + 40, y, 50, 50);
-				System.out.println(xBound + 40 + " " + y);
-				this.add(clickedButton, i);
-				moveToFront(clickedButton);
 				
 				// Add button
 				clickedButton.addMouseListener(this);
@@ -178,13 +189,35 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			CreateBackground();
 		} else if (e.getSource().equals(hiButton)) {
 			// Meme Button Method //
+			JOptionPane.showMessageDialog(null, "ur toe is wacked");
+			JOptionPane.showMessageDialog(null, "here sum memes for ur agony");
+			
+			Desktop d = Desktop.getDesktop();
+			
+			try {
+				d.browse(new URI("https://i.imgflip.com/3ow3hu.jpg"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+			
 		} else if (e.getSource().equals(easyButton)) {
 			// uwu mode uwu //
 			computer.setMode(1);
 			
+			// Reset the button mouse listeners
+			easyButton.removeMouseListener(this);
+			hiButton.removeMouseListener(this);
+			
 			state = states[2];
 			
 			loadGame();
+		} else if (e.getSource().equals(hardButton)) {
+			JOptionPane.showMessageDialog(null, "Computer won ur bad!");
 		}
 		
 		
@@ -196,15 +229,25 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			if (e.getSource().equals(g)) {
 				
 				// if (turn == player) //
-				if (turn == 0) {
-					g.setText("x");
+				g.setText("x");
 					
-					// change the turn to the computer
-					turn = 1;
+				// change the turn to the computer
 					
-					computer.update(i, 1);
+				computer.update(i, Computer.PLAYER);
 					
-					turn = 0;
+				// random
+				int[] plays = computer.getTable();
+					
+				while (true) {
+					int randInt = new Random().nextInt(8);
+						
+					if (plays[randInt] == 0) {
+						computer.update(randInt, Computer.COMPUTER);
+							
+						tacbuttons[randInt].setText("o");
+							
+						break;
+					}
 				}
 			}
 		}
