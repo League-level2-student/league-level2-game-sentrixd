@@ -1,9 +1,5 @@
 package tic_tac_toe;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class Computer {
@@ -27,7 +23,16 @@ public class Computer {
 		}
 	}
 	
+	boolean checkPlace(int place) {
+		if (plays[place] == 1 || plays[place] == 2) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	void checkIfWon(int player) {
+		
 		if (plays[0] == player && plays[1] == player && plays[2] == player || plays[3] == player && plays[4] == player && plays[5] == player || plays[6] == player && plays[7] == player && plays[8] == player) {
 			// Direct from left to right
 			System.out.println("Player equals " + player);
@@ -54,12 +59,28 @@ public class Computer {
 			}
 			restart();
 		}
+		
+		boolean isNull = false;
+		
+		// Check if all the spots are filled
+		for (int i = 0; i < plays.length; i++) {
+			if (plays[i] == 0) {
+				isNull = true;
+				break;
+			}
+		}
+		// Following to the top line
+		if (isNull == false) {
+			JOptionPane.showMessageDialog(null, "tie better than loosing i guess.'");
+			
+			restart();
+		}
 	}
 	
 	void restart() {
 		Startup.frame.setVisible(false);
 		
-		Startup startupInstance = new Startup();
+		new Startup();
 	}
 	
 	int[] getTable() {

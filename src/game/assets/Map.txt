@@ -1,4 +1,0 @@
-// SYNTAX
-// create new OBJECT NAME(String) SIZE(x,y) POSITION(x,y) COLOR(new Color())
-
-create new OBJECT bob 50,50 30,30 255,255,255
