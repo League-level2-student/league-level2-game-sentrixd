@@ -19,8 +19,21 @@ public class Computer {
 	void update(int index, int type) {
 		if (mode == 1) {
 			plays[index] = type;
-			checkIfWon(type);
+			
+			if (checkIfWon(type)) {
+				restart();
+			}
 		}
+	}
+	
+	boolean isFull() {
+		for (int i = 0; i < plays.length; i++) {
+			if (plays[i] == 0) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	boolean checkPlace(int place) {
@@ -31,17 +44,18 @@ public class Computer {
 		}
 	}
 	
-	void checkIfWon(int player) {
+	boolean checkIfWon(int player) {
+		boolean tableFilled = true;
+		boolean needsRestart = false;
 		
 		if (plays[0] == player && plays[1] == player && plays[2] == player || plays[3] == player && plays[4] == player && plays[5] == player || plays[6] == player && plays[7] == player && plays[8] == player) {
 			// Direct from left to right
-			System.out.println("Player equals " + player);
 			if (player == PLAYER) {
 				JOptionPane.showMessageDialog(null, "you won gud job");
 			} else if (player == COMPUTER) {
 				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
 			}
-			restart();
+			needsRestart = true;
 		} else if (plays[0] == player && plays[3] == player && plays[6] == player || plays[1] == player && plays[4] == player && plays[7] == player || plays[2] == player && plays[5] == player && plays[8] == player) {
 			// Top to bottom
 			if (player == PLAYER) {
@@ -49,7 +63,7 @@ public class Computer {
 			} else if (player == COMPUTER) {
 				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
 			}
-			restart();
+			needsRestart = true;
 		} else if (plays[0] == player && plays[4] == player && plays[8] == player || plays[2] == player && plays[4] == player && plays[6] == player) {
 			// Top left to bottom right
 			if (player == PLAYER) {
@@ -57,28 +71,29 @@ public class Computer {
 			} else if (player == COMPUTER) {
 				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
 			}
-			restart();
+			needsRestart = true;
 		}
-		
-		boolean isNull = false;
 		
 		// Check if all the spots are filled
 		for (int i = 0; i < plays.length; i++) {
 			if (plays[i] == 0) {
-				isNull = true;
+				tableFilled = false;
 				break;
 			}
 		}
+		
 		// Following to the top line
-		if (isNull == false) {
-			JOptionPane.showMessageDialog(null, "tie better than loosing i guess.'");
-			
-			restart();
+		if (tableFilled && !needsRestart) {
+			JOptionPane.showMessageDialog(null, "tie better than loosing i guess.");
+					
+			needsRestart = true;
 		}
+		
+		return needsRestart;
 	}
 	
 	void restart() {
-		Startup.frame.setVisible(false);
+		Startup.frame.dispose();
 		
 		new Startup();
 	}

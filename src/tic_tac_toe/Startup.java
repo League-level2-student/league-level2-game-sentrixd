@@ -31,7 +31,7 @@ public class Startup {
 		frame.setResizable(false);
 
 		// Simple customizations
-		frame.setTitle("Tic wac yo toe");
+		frame.setTitle("tik tok");
 		frame.setLocationRelativeTo(null);
 
 		// Make the frame visible

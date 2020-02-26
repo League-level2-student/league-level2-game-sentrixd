@@ -36,6 +36,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	String playerName;
 
 	JButton[] tacbuttons = new JButton[9];
+	String[] memes = new String[5];
 
 	JButton playButton;
 	JButton hiButton;
@@ -52,7 +53,13 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		states[1] = 2; // Choose state
 		states[2] = 3; // Game
 		states[3] = 4; // End game (Thanos reference)
-
+		
+		memes[0] = "https://i.imgflip.com/3phog8.jpg";
+		memes[1] = "https://i.imgflip.com/3ow3hu.jpg";
+		memes[2] = "https://i.imgflip.com/3q28xl.jpg";
+		memes[3] = "https://i.imgflip.com/3q235k.gif";
+		memes[4] = "https://i.imgflip.com/3q2dll.jpg";
+		
 		fonts[0] = new Font("Avenir Next", Font.PLAIN, 42);
 		fonts[1] = new Font("Avenir Next", Font.PLAIN, 22);
 
@@ -79,7 +86,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			playButton = new JButton("Play");
 			hiButton = new JButton("hi wack yo toe");
 			instructions = new JLabel(
-					"<html>Basicly you click play, choose the mode and then you<br/>click the buttons then once you do that you need <br/> to get 3 in a row.</html>");
+					"<html>Basicaly you click play, choose the mode and then you<br/>click the buttons then once you do that you need <br/> to get 3 in a row.</html>");
 
 			instructions.setForeground(Color.white);
 
@@ -191,12 +198,17 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		} else if (e.getSource().equals(hiButton)) {
 			// Meme Button Method //
 			JOptionPane.showMessageDialog(null, "ur toe is wacked");
-			JOptionPane.showMessageDialog(null, "here sum memes for ur agony");
+			JOptionPane.showMessageDialog(null, "here sum random memes for ur agony DISCLAMER: MEME MIGHT BE REPEATED AND IM NOT RESPONSIBLE");
 
 			Desktop d = Desktop.getDesktop();
+			
+			int randomImageNumber = new Random().nextInt(memes.length);
 
 			try {
-				d.browse(new URI("https://i.imgflip.com/3ow3hu.jpg"));
+				
+				
+				d.browse(new URI(memes[randomImageNumber]));
+				//https://i.imgflip.com/3phog8.jpg
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -225,21 +237,21 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		for (int i = 0; i < tacbuttons.length; i++) {
 			JButton g = tacbuttons[i];
 
-			if (e.getSource().equals(g)) {
+			if (e.getSource()==g) {
 
 				// check if this place haven't already been taken
-				if (computer.checkPlace(i) == false) {
+				if (!computer.checkPlace(i)) {
 					g.setText("X");
 
 					// change the turn to the computer
 
 					computer.update(i, Computer.PLAYER);
-
+					
 					// random
 					int[] plays = computer.getTable();
 
-					while (true) {
-						int randInt = new Random().nextInt(8);
+					while (!computer.isFull()) {
+						int randInt = new Random().nextInt(9);
 
 						if (plays[randInt] == 0) {
 							tacbuttons[randInt].setText("O");
