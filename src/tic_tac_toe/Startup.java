@@ -12,7 +12,7 @@ public class Startup {
 
 	Startup() {
 		frame = new JFrame();
-		gamePanelInstance = new GameMain();
+		gamePanelInstance = new GameMain(frame);
 
 		setup();
 	}

@@ -15,6 +15,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -33,6 +34,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	public boolean needImage = true;
 	public boolean gotImage = false;
 
+	JFrame frame;
+	
 	String playerName;
 
 	JButton[] tacbuttons = new JButton[9];
@@ -48,7 +51,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 
 	Computer computer;
 
-	GameMain() {
+	GameMain(JFrame frame) {
 		states[0] = 1; // Menu
 		states[1] = 2; // Choose state
 		states[2] = 3; // Game
@@ -68,6 +71,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 		state = states[0];
 
 		CreateBackground();
+		
+		this.frame = frame;
 	}
 
 	void CreateBackground() {
@@ -123,6 +128,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			easyButton.addMouseListener(this);
 			hardButton.addMouseListener(this);
 		} else if (state == states[2]) {
+
+			
 			// Insert the background afterwards
 			this.add(background, 0);
 
