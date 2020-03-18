@@ -6,18 +6,12 @@ public class Computer {
 	static final int PLAYER = 1;
 	static final int COMPUTER = 2;
 	
-	/*
-	 * mode 1 = easy;
-	 * mode 2 = intermediate;
-	 * mode 3 - semi-impossible;
-	 */
-	
-	int mode = 0;
+	String mode = "regular";
 	
 	int[] plays = new int[9];
 	
 	void update(int index, int type) {
-		if (mode == 1) {
+		if (mode.equals("regular")) {
 			plays[index] = type;
 			
 			if (checkIfWon(type)) {
@@ -53,7 +47,7 @@ public class Computer {
 			if (player == PLAYER) {
 				JOptionPane.showMessageDialog(null, "you won gud job");
 			} else if (player == COMPUTER) {
-				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
+				JOptionPane.showMessageDialog(null, "bruh you could have just gotton a tie ._.");
 			}
 			needsRestart = true;
 		} else if (plays[0] == player && plays[3] == player && plays[6] == player || plays[1] == player && plays[4] == player && plays[7] == player || plays[2] == player && plays[5] == player && plays[8] == player) {
@@ -61,7 +55,7 @@ public class Computer {
 			if (player == PLAYER) {
 				JOptionPane.showMessageDialog(null, "you won gud job");
 			} else if (player == COMPUTER) {
-				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
+				JOptionPane.showMessageDialog(null, "bruh you could have just gotton a tie ._.");
 			}
 			needsRestart = true;
 		} else if (plays[0] == player && plays[4] == player && plays[8] == player || plays[2] == player && plays[4] == player && plays[6] == player) {
@@ -69,7 +63,7 @@ public class Computer {
 			if (player == PLAYER) {
 				JOptionPane.showMessageDialog(null, "you won gud job");
 			} else if (player == COMPUTER) {
-				JOptionPane.showMessageDialog(null, "TRASHHHHSHHSHSHHH KID YOU COULDN'T EVEN BEAT  A COMPUTER THAT RANDOMLY GUESSES TRASSHHSHSHSHHHH");
+				JOptionPane.showMessageDialog(null, "bruh you could have just gotton a tie ._.");
 			}
 			needsRestart = true;
 		}
@@ -103,11 +97,11 @@ public class Computer {
 	}
 	
 	// Returns the current mode //
-	void setMode(int mode) {
+	void setMode(String mode) {
 		this.mode = mode;
 	}
 	// Gets the current mode //
-	int getMode() {
+	String getMode() {
 		return this.mode;
 	}
 }

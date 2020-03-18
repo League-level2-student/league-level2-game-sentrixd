@@ -25,10 +25,10 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	int[] states = new int[4];
+	String[] states = new String[4];
 	Font[] fonts = new Font[2];
 
-	int state;
+	String state;
 
 	public BufferedImage image;
 	public boolean needImage = true;
@@ -52,10 +52,10 @@ public class GameMain extends JLayeredPane implements MouseListener {
 	Computer computer;
 
 	GameMain(JFrame frame) {
-		states[0] = 1; // Menu
-		states[1] = 2; // Choose state
-		states[2] = 3; // Game
-		states[3] = 4; // End game (Thanos reference)
+		states[0] = "Menu"; 
+		states[1] = "ChooseState";
+		states[2] = "Game";
+		states[3] = "EndGame";
 		
 		memes[0] = "https://i.imgflip.com/3phog8.jpg";
 		memes[1] = "https://i.imgflip.com/3ow3hu.jpg";
@@ -77,7 +77,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 
 	void CreateBackground() {
 		JLabel background = new JLabel();
-		ImageIcon icon = new ImageIcon(getCurrentDirectory() + "/src/tic_tac_toe/Background.jpg");
+		ImageIcon icon = new ImageIcon(getClass().getResource("Background.jpg"));
 
 		setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 
@@ -86,12 +86,12 @@ public class GameMain extends JLayeredPane implements MouseListener {
 
 		// Check the state //
 
-		if (state == states[0]) {
+		if (state.equals(states[0])) {
 			// Buttons //
 			playButton = new JButton("Play");
 			hiButton = new JButton("hi wack yo toe");
 			instructions = new JLabel(
-					"<html>Basicaly you click play, choose the mode and then you<br/>click the buttons then once you do that you need <br/> to get 3 in a row.</html>");
+					"<html>Click play to start the game. It will show a window with the <br> option to choose your mode. Select the mode then the game <br> will load. Click on the squares to place you character (x) and <br> get 3 in a row in any direction to win.</html>");
 
 			instructions.setForeground(Color.white);
 
@@ -110,7 +110,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 
 			playButton.addMouseListener(this);
 			hiButton.addMouseListener(this);
-		} else if (state == states[1]) {
+		} else if (state.equals(states[1])) {
 			// Buttons //
 			easyButton = new JButton("uwu mode (wholesome mode)");
 			hardButton = new JButton("u can't win xd");
@@ -120,14 +120,14 @@ public class GameMain extends JLayeredPane implements MouseListener {
 
 			this.add(background, 0);
 			this.add(easyButton, 1);
-			this.add(hardButton, 1);
+			this.add(hardButton, 1); 
 
 			moveToFront(easyButton);
 			moveToFront(hardButton);
 
 			easyButton.addMouseListener(this);
 			hardButton.addMouseListener(this);
-		} else if (state == states[2]) {
+		} else if (state.equals(states[2])) {
 
 			
 			// Insert the background afterwards
@@ -203,9 +203,8 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			// Redraw //
 			CreateBackground();
 		} else if (e.getSource().equals(hiButton)) {
-			// Meme Button Method //
-			JOptionPane.showMessageDialog(null, "ur toe is wacked");
-			JOptionPane.showMessageDialog(null, "here sum random memes for ur agony DISCLAMER: MEME MIGHT BE REPEATED AND IM NOT RESPONSIBLE");
+			JOptionPane.showMessageDialog(null, "Your toe is wacked");
+			JOptionPane.showMessageDialog(null, "Here are some memes");
 
 			Desktop d = Desktop.getDesktop();
 			
@@ -225,8 +224,7 @@ public class GameMain extends JLayeredPane implements MouseListener {
 			}
 
 		} else if (e.getSource().equals(easyButton)) {
-			// uwu mode uwu //
-			computer.setMode(1);
+			computer.setMode("regular");
 
 			// Reset the button mouse listeners
 			easyButton.removeMouseListener(this);
